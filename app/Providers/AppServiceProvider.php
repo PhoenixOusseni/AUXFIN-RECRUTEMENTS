@@ -4,6 +4,7 @@ namespace App\Providers;
 use App\Models\Poste;
 use App\Models\Candidature;
 use App\Models\DemandeStage;
+use App\Models\Entretien;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -68,6 +69,22 @@ class AppServiceProvider extends ServiceProvider
 
             // Mettre à jour la demande de stage
             $demandeStage->update(['code' => $code]);
+        });
+
+        Entretien::created(function (Entretien $entretien) {
+            // Logique à exécuter après la création d'une demande de stage
+            \Log::info('Un nouvel entretien a été créé pour la candidature : ' . $entretien->candidature->code);
+
+            $count = Entretien::count();
+
+            // Générer le numéro formaté
+            $number = str_pad($count, 5, '0', STR_PAD_LEFT);
+
+            // Construire le code
+            $code = "ENT-{$number}/" . date('Y');
+
+            // Mettre à jour l'entretien
+            $entretien->update(['code' => $code]);
         });
     }
 }

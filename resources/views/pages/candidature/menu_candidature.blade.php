@@ -6,9 +6,9 @@
                 <option value="{{ route('candidature.index') }}" {{ request()->is('candidature') ? 'selected' : '' }}>
                     Toutes les candidatures</option>
                 <option value="{{ route('candidature.en_cours') }}"
-                    {{ request()->is('candidature_en_cours') ? 'selected' : '' }}>Candidatures en cours</option>
+                    {{ request()->is('candidature_en_cours') ? 'selected' : '' }}>Candidatures en ententes</option>
                 <option value="{{ route('candidature.en_attente') }}"
-                    {{ request()->is('candidature_en_attente') ? 'selected' : '' }}>Candidatures en attente</option>
+                    {{ request()->is('candidature_en_attente') ? 'selected' : '' }}>Candidatures en entretien</option>
                 <option value="{{ route('candidature.acceptees') }}"
                     {{ request()->is('candidature_acceptees') ? 'selected' : '' }}>Candidatures acceptées</option>
                 <option value="{{ route('candidature.refusees') }}"
@@ -22,3 +22,14 @@
     </div>
 </div>
 <hr class="mt-0 mb-4">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Feather icons
+        if (feather) {
+            feather.replace({
+                width: 14,
+                height: 14
+            });
+        }
+    });
+</script>

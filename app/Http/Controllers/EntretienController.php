@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entretien;
+use App\Models\Poste;
+use App\Models\Candidature;
 use Illuminate\Http\Request;
 
 class EntretienController extends Controller
@@ -12,7 +14,8 @@ class EntretienController extends Controller
      */
     public function index()
     {
-        //
+        $entretiens = Entretien::all();
+        return view('pages.setting.entretiens.index', compact('entretiens'));
     }
 
     /**
@@ -20,7 +23,9 @@ class EntretienController extends Controller
      */
     public function create()
     {
-        //
+        $postes = Poste::where('statut', 'actif')->get();
+        $candidatures = Candidature::where('statut', 'entretien')->get();
+        return view('pages.setting.entretiens.create', compact('postes', 'candidatures'));
     }
 
     /**
@@ -28,15 +33,34 @@ class EntretienController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'date_entretien' => 'required|date',
+            'heure_entretien' => 'required',
+            'lieu_entretien' => 'required|string|max:255',
+            'commentaires' => 'nullable|string',
+            'poste_id' => 'nullable|exists:postes,id',
+        ]);
+
+        // créer l'entretien à partir des données validées
+        $entretien = Entretien::create($validated);
+
+        // rediriger vers la page de détail de l'entretien (route resource : entretiens.show)
+        return redirect()
+            ->route('settings_entretiens.show', $entretien) // tu peux aussi passer $entretien->id
+            ->with('success', "L'entretien a été créé avec succès.");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Entretien $entretien)
+    public function show(string $id)
     {
-        //
+        $finds = Entretien::findOrFail($id);
+        $candidatures = Candidature::where('statut', 'entretien')->get();
+        if (!$finds) {
+            return redirect()->route('settings_entretiens.index')->with('error', 'Entretien non trouvé.');
+        }
+        return view('pages.setting.entretiens.show', compact('finds', 'candidatures'));
     }
 
     /**
@@ -61,5 +85,23 @@ class EntretienController extends Controller
     public function destroy(Entretien $entretien)
     {
         //
+    }
+
+    public function assignCandidatures(Request $request, $entretienId)
+    {
+        $validated = $request->validate([
+            'candidature_ids' => 'required|array|min:1',
+            'candidature_ids.*' => 'exists:candidatures,id',
+        ]);
+
+        $entretien = Entretien::findOrFail($entretienId);
+
+        // Remplace les assignations actuelles par la nouvelle sélection
+        $entretien->candidatures()->sync($validated['candidature_ids']);
+
+        // Si tu veux "ajouter" sans supprimer les existantes : syncWithoutDetaching(...)
+        // $entretien->candidatures()->syncWithoutDetaching($validated['candidature_ids']);
+
+        return redirect()->route('settings_entretiens.show', $entretien)->with('success', "Candidature(s) assignée(s) à l'entretien.");
     }
 }

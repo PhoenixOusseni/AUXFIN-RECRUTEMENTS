@@ -10,8 +10,13 @@ class Entretien extends Model
 
     ];
 
-    public function candidature()
+    public function candidatures()
     {
-        return $this->belongsTo(Candidature::class, 'candidature_id');
+        return $this->belongsToMany(Candidature::class, 'candidature_entretien', 'entretien_id', 'candidature_id')->withTimestamps();
+    }
+
+    public function poste()
+    {
+        return $this->belongsTo(Poste::class, 'poste_id');
     }
 }

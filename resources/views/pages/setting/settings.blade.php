@@ -39,7 +39,7 @@
                                             <h5>Gestion des entretiens</h5>
                                         </div>
                                     </div>
-                                    <a class="card-footer text-white clearfix small z-1" href="">
+                                    <a class="card-footer text-white clearfix small z-1" href="{{ route('settings_entretiens.index') }}">
                                         <span class="float-left">Voir les détails</span>
                                         <span class="float-right"><i data-feather="arrow-right"></i></span>
                                     </a>

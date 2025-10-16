@@ -24,4 +24,9 @@ class Poste extends Model
     {
         return $this->belongsTo(TypePoste::class, 'type_poste_id');
     }
+
+    public function entretien()
+    {
+        return $this->hasMany(Entretien::class, 'poste_id');
+    }
 }

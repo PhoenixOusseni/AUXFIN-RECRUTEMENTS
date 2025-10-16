@@ -6,6 +6,7 @@ use App\Http\Controllers\CandidatureController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PosteController;
 use App\Http\Controllers\DemandeStageController;
+use App\Http\Controllers\EntretienController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -77,4 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::post('password/email', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
     Route::get('password/reset/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
     Route::post('password/reset', [AuthController::class, 'reset'])->name('password.update');
+
+    Route::resource('settings_entretiens', EntretienController::class);
+    Route::post('settings_entretiens/{id}/candidature', [EntretienController::class, 'assignCandidatures'])->name('settings_entretiens.candidature');
 });

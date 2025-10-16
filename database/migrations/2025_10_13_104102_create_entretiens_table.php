@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('entretiens', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->nullable();
             $table->date('date_entretien');
             $table->time('heure_entretien');
             $table->string('lieu_entretien');

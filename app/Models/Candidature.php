@@ -20,8 +20,8 @@ class Candidature extends Model
         return $this->belongsTo(Poste::class, 'poste_id');
     }
 
-    public function entretien()
+    public function entretiens()
     {
-        return $this->hasMany(Entretien::class, 'candidature_id');
+        return $this->belongsToMany(Entretien::class, 'candidature_entretien', 'candidature_id', 'entretien_id')->withTimestamps();
     }
 }

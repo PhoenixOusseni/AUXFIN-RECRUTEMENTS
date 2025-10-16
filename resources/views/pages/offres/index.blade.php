@@ -35,7 +35,7 @@
                                         <td>{{ $item->type_contrat }}</td>
                                         <td>{{ $item->localisation }}</td>
                                         <td>{{ $item->date_expiration }}</td>
-                                        <td>{{ $item->statut }}</td>
+                                        <td class="text-danger">{{ $item->statut }}</td>
                                         <td class="text-center">
                                             <a class="text-center" href="{{ route('gestion_offres.show', $item->id) }}">
                                                 <i class="me-2 text-green" data-feather="more-horizontal"></i>
