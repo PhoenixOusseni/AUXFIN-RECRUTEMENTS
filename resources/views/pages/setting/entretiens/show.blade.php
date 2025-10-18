@@ -21,36 +21,36 @@
                                         </a>
                                     </div>
                                     <div class="col-md-6 text-end">
-                                        <a href="{{ route('settings') }}" class="btn btn-warning mb-1">
-                                            <i data-feather="arrow-left"></i>&nbsp; Retour aux paramètres
+                                        <a href="{{ route('settings_entretiens.appercu', $finds->id) }}" class="btn btn-warning mb-1">
+                                            <i data-feather="aperture"></i>&nbsp; Appercu avant l'impression
                                         </a>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5>Date de l'entretien:</h5>
-                                        <p>{{ $finds->date_entretien }}</p>
+                                        <h5 class="small">Date de l'entretien:</h5>
+                                        <p class="text-muted small">{{ $finds->date_entretien }}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <h5>Heure de l'entretien:</h5>
-                                        <p>{{ $finds->heure_entretien }}</p>
+                                        <h5 class="small">Heure de l'entretien:</h5>
+                                        <p class="text-muted small">{{ $finds->heure_entretien }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5>Lieu de l'entretien:</h5>
-                                        <p>{{ $finds->lieu_entretien }}</p>
+                                        <h5 class="small">Lieu de l'entretien:</h5>
+                                        <p class="text-muted small">{{ $finds->lieu_entretien }}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <h5>Offre:</h5>
-                                        <p>{{ $finds->poste->code }} - {{ $finds->poste->titre }}</p>
+                                        <h5 class="small">Offre:</h5>
+                                        <p class="text-muted small">{{ $finds->poste->code }} - {{ $finds->poste->titre }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <h5>Commentaires:</h5>
-                                        <p>{{ $finds->commentaires ?? 'Aucun commentaire.' }}</p>
+                                        <h5 class="small">Commentaires:</h5>
+                                        <p class="text-muted small">{{ $finds->commentaires ?? 'Aucun commentaire.' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -62,20 +62,28 @@
                                     <div class="mb-3">
                                         <div class="form-check mb-2">
                                             <input class="form-check-input" type="checkbox" id="select_all">
-                                            <label class="form-check-label" for="select_all">Tout sélectionner</label>
+                                            <label class="small" for="select_all">Tout sélectionner</label>
                                         </div>
-                                        @foreach ($candidatures as $candidature)
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="candidature_ids[]"
-                                                    id="candidature_{{ $candidature->id }}" value="{{ $candidature->id }}"
-                                                    {{-- Préservation de l'état : old() si validation KO ou si l'entretien a déjà des candidatures --}} @if (collect(old('candidature_ids', $entretien_candidature_ids ?? []))->contains($candidature->id)) checked @endif>
-                                                <label class="small" for="candidature_{{ $candidature->id }}">
-                                                    {{ $candidature->user->nom ?? '' }}
-                                                    {{ $candidature->user->prenom ?? '' }} -
-                                                    {{ $candidature->user->email ?? '' }}
-                                                </label>
-                                            </div>
-                                        @endforeach
+                                        <table class="table table-bordered table-hover">
+                                            @foreach ($candidatures as $candidature)
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="candidature_ids[]" value="{{ $candidature->id }}"
+                                                                id="candidature_{{ $candidature->id }}"
+                                                                {{ $finds->candidatures->contains($candidature->id) ? 'checked' : '' }}>
+                                                            <label class="small" for="candidature_{{ $candidature->id }}">
+                                                                {{ $candidature->user->nom ?? '' }}
+                                                                {{ $candidature->user->prenom ?? '' }} -
+                                                                {{ $candidature->user->email ?? '' }} -
+                                                                <em>{{ $candidature->poste->code ?? '' }}</em>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
                                         @error('candidature_ids')
                                             <div class="text-danger small mt-1">{{ $message }}</div>
                                         @enderror
@@ -84,8 +92,8 @@
                                         @enderror
                                     </div>
 
-                                    <button type="submit" class="btn btn-dark">
-                                        <i data-feather="save"></i>&thinsp;&thinsp;&thinsp; Assigner le(s) candidat(s)
+                                    <button type="submit" class="btn btn-warning">
+                                        <i data-feather="save"></i>&thinsp;&thinsp;&thinsp; Assigner les candidats
                                     </button>
                                 </form>
                             </div>

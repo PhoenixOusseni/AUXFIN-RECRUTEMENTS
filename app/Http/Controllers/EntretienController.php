@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Entretien;
 use App\Models\Poste;
 use App\Models\Candidature;
+use App\Models\CandidatureEntretien;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class EntretienController extends Controller
@@ -55,12 +57,31 @@ class EntretienController extends Controller
      */
     public function show(string $id)
     {
-        $finds = Entretien::findOrFail($id);
-        $candidatures = Candidature::where('statut', 'entretien')->get();
-        if (!$finds) {
-            return redirect()->route('settings_entretiens.index')->with('error', 'Entretien non trouvé.');
-        }
-        return view('pages.setting.entretiens.show', compact('finds', 'candidatures'));
+        $finds = Entretien::with(['poste', 'candidatures.user'])->findOrFail($id);
+
+        $candidatures = Candidature::with('user')
+            ->where('statut', 'entretien')
+            ->whereNotIn('id', function ($query) {
+                $query->select('candidature_id')->from('candidature_entretien');
+            })
+            ->orderByDesc('poste_id')
+            ->get();
+
+        $assignedIds = $finds->candidatures->pluck('id')->toArray();
+
+        return view('pages.setting.entretiens.show', compact('finds', 'candidatures', 'assignedIds'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function appercu_entretien(Entretien $h)
+    {
+        $candidatureIds = DB::table('candidature_entretien')->where('entretien_id', $entretien->id)->pluck('candidature_id');
+
+        $assignedCandidatures = Candidature::with('user')->whereIn('id', $candidatureIds)->get();
+
+        return view('pages.setting.entretiens.appercu', compact('candidatureIds', 'entretien', 'assignedCandidatures'));
     }
 
     /**

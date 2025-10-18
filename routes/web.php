@@ -81,4 +81,5 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('settings_entretiens', EntretienController::class);
     Route::post('settings_entretiens/{id}/candidature', [EntretienController::class, 'assignCandidatures'])->name('settings_entretiens.candidature');
+    Route::get('settings_entretiens/{id}/appercu', [EntretienController::class, 'appercu_entretien'])->name('settings_entretiens.appercu');
 });

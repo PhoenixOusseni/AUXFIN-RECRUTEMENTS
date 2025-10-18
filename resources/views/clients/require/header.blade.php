@@ -10,7 +10,7 @@
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('images/auxfin.png') }}" alt="Croix-Rouge" width="100" height="50">
+            <img src="{{ asset('images/auxfin-bf.png') }}" alt="Croix-Rouge" width="100" height="50">
         </a>
         <!-- Menu -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -22,7 +22,8 @@
                         style="font-weight: bold;">OPPORTUNITÉS DE CARRIÈRE</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('offres') }}"
                         style="font-weight: bold;">OFFRES</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('form_stage.stage') }}" style="font-weight: bold;">DEMANDE DE STAGE</a>
+                <li class="nav-item"><a class="nav-link" href="{{ route('form_stage.stage') }}"
+                        style="font-weight: bold;">DEMANDE DE STAGE</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('comment_inscrire') }}"
                         style="font-weight: bold;">COMMENT S'INSCRIRE</a></li>

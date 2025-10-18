@@ -16,7 +16,7 @@
             </select>
         </div>
         <div class="col-md-6 text-end">
-            <a href="#" class="btn btn-light"><i data-feather="align-left"></i>&thinsp;&thinsp;
+            <a href="{{ route('settings_entretiens.index') }}" class="btn btn-warning"><i data-feather="align-left"></i>&thinsp;&thinsp;
                 Entretiens</a>
         </div>
     </div>

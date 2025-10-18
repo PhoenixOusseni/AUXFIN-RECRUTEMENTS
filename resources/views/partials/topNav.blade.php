@@ -1,8 +1,8 @@
 <!-- Bandeau supérieur -->
 <div class="top-bar text-center p-2">
-    <a href="#" class="text-white" style="font-size: 13px;">POURQUOI TRAVAILLER À AUXFIN</a>
+    <a href="{{ route('home') }}" class="text-white" style="font-size: 13px;">POURQUOI TRAVAILLER À AUXFIN</a>
     <span class="mx-2">|</span>
-    <a href="#" class="text-white" style="font-size: 13px;">A PROPOS DE AUXFIN</a>
+    <a href="https://auxfin.com/" class="text-white" style="font-size: 13px;">A PROPOS DE AUXFIN</a>
 </div>
 
 <!-- Navbar -->

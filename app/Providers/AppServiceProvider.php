@@ -73,12 +73,11 @@ class AppServiceProvider extends ServiceProvider
 
         Entretien::created(function (Entretien $entretien) {
             // Logique à exécuter après la création d'une demande de stage
-            \Log::info('Un nouvel entretien a été créé pour la candidature : ' . $entretien->candidature->code);
 
             $count = Entretien::count();
 
             // Générer le numéro formaté
-            $number = str_pad($count, 5, '0', STR_PAD_LEFT);
+            $number = str_pad($count, 5, '0', STR_PAD_LEFT); // 5 chiffres avec des zéros en tête
 
             // Construire le code
             $code = "ENT-{$number}/" . date('Y');

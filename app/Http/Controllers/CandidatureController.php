@@ -122,6 +122,6 @@ class CandidatureController extends Controller
         $candidature = Candidature::findOrFail($id);
         $candidature->statut = $request->input('statut');
         $candidature->save();
-        return redirect()->back()->with('success', 'Statut de la candidature mis à jour avec succès.');
+        return redirect()->route('candidature.index')->with('success', 'Statut de la candidature mis à jour avec succès.');
     }
 }

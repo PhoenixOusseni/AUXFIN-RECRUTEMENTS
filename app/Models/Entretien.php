@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Entretien extends Model
 {
-    protected $guarded = [
-
-    ];
+    protected $guarded = [];
 
     public function candidatures()
     {
-        return $this->belongsToMany(Candidature::class, 'candidature_entretien', 'entretien_id', 'candidature_id')->withTimestamps();
+        return $this->belongsToMany(Candidature::class, 'candidature_entretien')
+        ->using(CandidatureEntretien::class)
+        ->withPivot('id', 'statut', 'scheduled_at')
+        ->withTimestamps();
     }
 
     public function poste()

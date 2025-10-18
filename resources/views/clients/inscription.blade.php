@@ -9,13 +9,13 @@
     @include('partials.style')
 </head>
 
-<body>
+<body style="background-image: url('{{ asset('images/background.png') }}'); background-size: cover; background-position: center;">
 
     <!-- NAVBAR -->
     @include('clients.require.auth-connect')
 
     <!-- FORMULAIRE -->
-    <div class="container my-5" style="margin-top: 100px !important; height: 100vh;">
+    <div class="container my-5" style="margin-top: 30px !important; height: 100vh;">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
                 <div class="card shadow-sm">

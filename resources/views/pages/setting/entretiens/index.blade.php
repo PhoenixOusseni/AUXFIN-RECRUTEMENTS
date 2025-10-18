@@ -40,7 +40,7 @@
                                 <tbody>
                                     @foreach ($entretiens as $entretien)
                                         <tr>
-                                            <td>{{ $entretien->id }}</td>
+                                            <td>{{ $entretien->code }}</td>
                                             <td>{{ $entretien->date_entretien }}</td>
                                             <td>{{ $entretien->lieu_entretien }}</td>
                                             <td>{{ $entretien->statut }}</td>
