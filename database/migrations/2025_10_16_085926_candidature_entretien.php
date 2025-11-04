@@ -16,6 +16,9 @@ return new class extends Migration {
             $table->foreignId('candidature_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->unique(['entretien_id', 'candidature_id']);
+            $table->string('statut')->nullable();
+            $table->timestamp('scheduled_at')->nullable();
+            // $table->string('statut');
         });
     }
 
@@ -24,6 +27,9 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidature_entretien');
+        Schema::table('candidature_entretien', function (Blueprint $table) {
+        $table->dropColumn(['statut','scheduled_at']);
+        // etc...
+    });
     }
 };

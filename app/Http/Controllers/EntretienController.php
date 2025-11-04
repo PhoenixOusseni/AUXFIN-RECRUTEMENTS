@@ -47,8 +47,7 @@ class EntretienController extends Controller
         $entretien = Entretien::create($validated);
 
         // rediriger vers la page de détail de l'entretien (route resource : entretiens.show)
-        return redirect()
-            ->route('settings_entretiens.show', $entretien) // tu peux aussi passer $entretien->id
+        return redirect()->route('settings_entretiens.show', $entretien) // tu peux aussi passer $entretien->id
             ->with('success', "L'entretien a été créé avec succès.");
     }
 
@@ -75,13 +74,12 @@ class EntretienController extends Controller
     /**
      * Display the specified resource.
      */
-    public function appercu_entretien(Entretien $h)
+    public function appercu_entretien(String $id)
     {
-        $candidatureIds = DB::table('candidature_entretien')->where('entretien_id', $entretien->id)->pluck('candidature_id');
+        $finds = Entretien::with(['poste', 'candidatures.user'])->findOrFail($id);
+        $candidats = $finds->candidatures->pluck('user')->unique();
 
-        $assignedCandidatures = Candidature::with('user')->whereIn('id', $candidatureIds)->get();
-
-        return view('pages.setting.entretiens.appercu', compact('candidatureIds', 'entretien', 'assignedCandidatures'));
+        return view('pages.setting.entretiens.appercu', compact('finds', 'candidats'));
     }
 
     /**

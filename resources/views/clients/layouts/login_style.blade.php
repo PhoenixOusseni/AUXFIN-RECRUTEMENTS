@@ -1,16 +1,35 @@
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <style>
+    /* Option A — "Warm multi-stop" : doux dégradé chaud à plusieurs arrêts + léger halo */
+    :root {
+        --g1: #ff7a59;
+        /* corail */
+        --g2: #ff9a76;
+        /* pêche */
+        --g3: #ffc46b;
+        /* doré */
+        --g4: #ffd98f;
+        /* clair */
+        --accent: rgba(255, 255, 255, 0.06);
+    }
+
     body,
     html {
         height: 100%;
         margin: 0;
-        background: linear-gradient(90deg, #ff9966 0%, #ffcc66 100%);
         background-size: cover;
         background-position: center;
         font-family: 'Segoe UI', sans-serif;
+        background-image:
+            radial-gradient(circle at 15% 15%, var(--accent), transparent 18%),
+            linear-gradient(135deg,
+                var(--g1) 18%,
+                #ff8f61 18%,
+                var(--g2) 38%,
+                var(--g3) 80%,
+                var(--g4) 5%);
     }
 
     .login-container {

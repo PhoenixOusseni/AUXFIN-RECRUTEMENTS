@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Poste;
 use App\Models\TypePoste;
+use App\Models\Candidature;
 use Illuminate\Http\Request;
 
 class PosteController extends Controller
@@ -92,8 +93,21 @@ class PosteController extends Controller
         ];
 
         $finds = Poste::findOrFail($id);
-        return view('pages.offres.show', compact('finds', 'statuts'));
+
+        $candidatures = Candidature::where('poste_id', $id)->get();
+        return view('pages.offres.show', compact('finds', 'statuts', 'candidatures'));
     }
+
+    /**
+     * Display the specified resource.
+     */
+    // public function candidatures_poste(string $id)
+    // {
+    //     $finds = Poste::findOrFail($id);
+
+    //     $candidatures = Candidature::where('poste_id', $id)->get();
+    //     return view('pages.candidature.candidatures_poste', compact('finds', 'candidatures'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

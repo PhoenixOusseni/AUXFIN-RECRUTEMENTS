@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('candidature_en_attente', [CandidatureController::class, 'candidatureEnAttente'])->name('candidature.en_attente');
     Route::get('candidature_refusees', [CandidatureController::class, 'candidatureRefusees'])->name('candidature.refusees');
     Route::get('candidature_acceptees', [CandidatureController::class, 'candidatureAcceptees'])->name('candidature.acceptees');
+    // Route::post('candidatures_offres/{id}/candidatures-offres', [PosteController::class, 'candidatures_poste'])->name('candidatures_offres');
 
     // Registration des demandes de stages
     Route::post('demande_stages', [DemandeStageController::class, 'store'])->name('demande_stages.store');
