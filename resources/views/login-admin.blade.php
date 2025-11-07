@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Connexion DS423</title>
+    <title>Admin auth</title>
 
     @include('clients.layouts.login_style')
 </head>
@@ -15,7 +15,7 @@
             @csrf
             <h6 class="text-dark fw-bold mb-3">AUXFIN BURKINA -- CONNEXION</h6>
             <div class="mt-4 text-center">
-                <img src="{{ asset('images/auxfin.png') }}" alt="logo auxfin"
+                <img src="{{ asset('images/auxfin-bf.png') }}" alt="logo auxfin"
                     style="width: 50%; margin-left: auto; margin-right: auto;">
             </div>
             <!-- Language Selection -->

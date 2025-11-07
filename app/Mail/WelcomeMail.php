@@ -8,27 +8,30 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
-class WelcomeMail extends Mailable
+class WelcomeMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $user;
     /**
      * Create a new message instance.
      */
-    public function __construct($user)
+    public function __construct(User $user)
     {
         $this->user = $user;
+        // optionnel : définir la file à utiliser
+        $this->onQueue('emails');
     }
 
     /**
-     * Get the message data.
+     * Build the message.
      */
-    public function build(): static
+    public function build()
     {
-        return $this->subject('Bienvenue sur notre plateforme')
-                    ->view('emails.welcome');
+        return $this->subject('Bienvenue sur ' . config('app.name'))
+            ->view('emails.welcome')
+            ->with(['user' => $this->user]);
     }
 
     /**
@@ -36,9 +39,7 @@ class WelcomeMail extends Mailable
      */
     public function envelope(): Envelope
     {
-        return new Envelope(
-            subject: 'Welcome Mail',
-        );
+        return new Envelope(subject: 'Welcome Mail');
     }
 
     /**
@@ -46,9 +47,7 @@ class WelcomeMail extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            view: 'view.name',
-        );
+        return new Content(markdown: 'emails.welcome');
     }
 
     /**

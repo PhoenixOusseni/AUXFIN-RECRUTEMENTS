@@ -7,6 +7,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PosteController;
 use App\Http\Controllers\DemandeStageController;
 use App\Http\Controllers\EntretienController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -27,6 +29,14 @@ Route::get('offres_emploie', [PageController::class, 'offres'])->name('offres');
 Route::get('details_offres/{id}', [PageController::class, 'finds_offres'])->name('offres_finds');
 Route::post('recherche_offres', [PageController::class, 'cherche'])->name('recherche');
 Route::get('comment_inscrire', [PageController::class, 'comment_inscrire'])->name('comment_inscrire');
+
+// Password Reset Routes
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
 
 // Routes protégées
 Route::middleware('auth')->group(function () {

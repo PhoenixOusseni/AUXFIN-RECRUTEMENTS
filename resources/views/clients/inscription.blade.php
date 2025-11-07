@@ -9,8 +9,7 @@
     @include('partials.style')
 </head>
 
-<body style="background-image: url('{{ asset('images/background.png') }}'); background-size: cover; background-position: center;">
-
+<body>
     <!-- NAVBAR -->
     @include('clients.require.auth-connect')
 

@@ -15,7 +15,7 @@
     @include('clients.require.auth-connect')
 
     <!-- FORMULAIRE -->
-    <div class="container my-5" style="margin-top: 40px !important; height: 100vh;">
+    <div class="container my-5" style="margin-top: 20px !important; height: 100vh;">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
                 <div class="card shadow-sm">
@@ -25,7 +25,7 @@
                             <small>Bienvenue sur le portail de recrutement d'AUXFIN !</small>
                         </div>
                         <div class="mt-4 text-center">
-                            <img src="{{ asset('images/auxfin.png') }}" alt="logo auxfin"
+                            <img src="{{ asset('images/auxfin-bf.png') }}" alt="logo auxfin"
                                 style="width: 30%; margin-left: auto; margin-right: auto;">
                         </div>
                         <form class="mt-3" method="POST" action="{{ route('auth') }}">

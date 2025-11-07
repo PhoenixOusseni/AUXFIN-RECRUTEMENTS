@@ -2,7 +2,7 @@
 <link href="{{ asset('cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css') }}" rel="stylesheet" />
 <link href="{{ asset('asset/css/styles.css') }}" rel="stylesheet" />
 <link href="{{ asset('asset/css/dataTable.min.css') }}" rel="stylesheet" />
-<link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ asset('images/auxfin.png') }}" type="image/x-icon">
 
 <link href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.css') }}" rel="stylesheet" />
 <link href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}" rel="stylesheet" />

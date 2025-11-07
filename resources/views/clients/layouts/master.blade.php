@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Opportunités de carrière - AUXFIN</title>
+    <link rel="icon" href="{{ asset('images/auxfin.png') }}" type="image/x-icon">
     <!-- Bootstrap 5 CSS -->
     @include('partials.style')
     <style>
@@ -79,12 +80,26 @@
             <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
                 <div class="toast align-items-center text-white {{ session('success') ? 'bg-success' : 'bg-danger' }} border-0 show"
                     role="alert" aria-live="assertive" aria-atomic="true" id="statusToast">
-                    <div class="d-flex">
-                        <div class="toast-body">
-                            {{ session('success') ?? session('error') }}
+                    <div class="d-block">
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto float-end border-1"
+                            data-bs-dismiss="toast" aria-label="Close"></button>
+                        <div class="toast-body" style="height: 40vh;">
+                            @if (session('success'))
+                                <div class="text-center">
+                                    <h3 class="mb-2 text-white">Succès !</h3>
+                                    <img src="{{ asset('images/image-succes.png') }}" alt="images-success"
+                                        style="width: 25%;">
+                                    <h5 class="mt-3 text-white">{{ session('success') }}</h5>
+                                </div>
+                            @else
+                                <div class="text-center">
+                                    <h3 class="mb-2 text-white">Erreur !</h3>
+                                    <img src="{{ asset('images/image-warning.jpg') }}" alt="images-error"
+                                        style="width: 35%;">
+                                    <h5 class="mt-3 text-white">{{ session('error') }}</h5>
+                                </div>
+                            @endif
                         </div>
-                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                            aria-label="Close"></button>
                     </div>
                 </div>
             </div>

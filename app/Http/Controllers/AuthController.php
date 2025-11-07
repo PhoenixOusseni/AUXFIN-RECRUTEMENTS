@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
+
 class AuthController extends Controller
 {
     /**
@@ -31,9 +34,11 @@ class AuthController extends Controller
         }
 
         // Échec : on retourne avec un message sans révéler la cause exacte
-        return back()->withErrors([
-            'email' => 'Les identifiants sont invalides.',
-        ])->onlyInput('email');
+        return back()
+            ->withErrors([
+                'email' => 'Les identifiants sont invalides.',
+            ])
+            ->onlyInput('email');
     }
 
     /**
@@ -55,23 +60,27 @@ class AuthController extends Controller
             $request->session()->regenerate(); // Protection contre fixation de session
 
             // Vérifier le rôle de l'utilisateur connecté
-            if (Auth::user()->role_id == 2 || Auth::user()->role_id == 3) { // 2 pour admin, 3 pour super-admin
+            if (Auth::user()->role_id == 2 || Auth::user()->role_id == 3) {
+                // 2 pour admin, 3 pour super-admin
                 return redirect()->route('dashboard')->with('success', 'Connexion réussie');
             }
 
             // Déconnexion si le rôle ne correspond pas
             Auth::logout();
-            return back()->withErrors([
-                'email' => 'Vous n\'êtes pas autorisé à accéder à cette section.',
-            ])->onlyInput('email');
+            return back()
+                ->withErrors([
+                    'email' => 'Vous n\'êtes pas autorisé à accéder à cette section.',
+                ])
+                ->onlyInput('email');
         }
 
         // Échec : identifiants invalides
-        return back()->withErrors([
-            'email' => 'Les identifiants sont invalides.',
-        ])->onlyInput('email');
+        return back()
+            ->withErrors([
+                'email' => 'Les identifiants sont invalides.',
+            ])
+            ->onlyInput('email');
     }
-
 
     /**
      * Handle the user logout request.
@@ -107,16 +116,26 @@ class AuthController extends Controller
         ]);
 
         if (!$user) {
-            return back()->withErrors(['error' => 'Une erreur est survenue lors de l\'inscription.'])->withInput();
-        } else {
-            // Attribuer un rôle par défaut (optionnel)
-            $user->role_id = 1; // Par exemple, 1 pour "candidat"
-            $user->save();
-            // Authentifier l'utilisateur
-            Auth::login($user);
-
-            return redirect()->route('home')->with('success', 'Inscription réussie.');
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de l\'inscription.'])
+                ->withInput();
         }
+
+        // Attribuer un rôle par défaut (optionnel)
+        $user->role_id = 1; // Par exemple, 1 pour "candidat"
+        $user->save();
+
+        // Envoyer le mail en file d'attente (queued)
+        try {
+            Mail::to($user->email)->send(new WelcomeMail($user));
+        } catch (\Exception $e) {
+            // Log l'erreur mais ne bloque pas l'inscription
+            \Log::error('Erreur envoi WelcomeMail: ' . $e->getMessage());
+        }
+
+        // Authentifier l'utilisateur
+        Auth::login($user);
+
+        return redirect()->route('profile.user', $user->id)->with('success', 'Inscription réussie, Veuillez compléter votre profil afin que nous puissions bien examiner vos candidatures');
     }
 
     public function updateProfile(Request $request, $id)
@@ -178,13 +197,9 @@ class AuthController extends Controller
         $request->validate(['email' => 'required|email']);
 
         // Envoyer le lien de réinitialisation
-        $status = \Password::sendResetLink(
-            $request->only('email')
-        );
+        $status = \Password::sendResetLink($request->only('email'));
 
-        return $status === \Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
+        return $status === \Password::RESET_LINK_SENT ? back()->with(['status' => __($status)]) : back()->withErrors(['email' => __($status)]);
     }
 
     // Afficher le formulaire de réinitialisation
@@ -201,19 +216,16 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $status = \Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->save();
+        $status = \Password::reset($request->only('email', 'password', 'password_confirmation', 'token'), function ($user, $password) {
+            $user
+                ->forceFill([
+                    'password' => Hash::make($password),
+                ])
+                ->save();
 
-                $user->setRememberToken(\Str::random(60));
-            }
-        );
+            $user->setRememberToken(\Str::random(60));
+        });
 
-        return $status === \Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+        return $status === \Password::PASSWORD_RESET ? redirect()->route('login')->with('status', __($status)) : back()->withErrors(['email' => [__($status)]]);
     }
 }
