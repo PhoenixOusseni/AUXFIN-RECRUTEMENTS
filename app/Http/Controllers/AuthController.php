@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Mail\WelcomeMail;
 
 class AuthController extends Controller
@@ -127,9 +128,10 @@ class AuthController extends Controller
         // Envoyer le mail en file d'attente (queued)
         try {
             Mail::to($user->email)->send(new WelcomeMail($user));
+            
         } catch (\Exception $e) {
             // Log l'erreur mais ne bloque pas l'inscription
-            \Log::error('Erreur envoi WelcomeMail: ' . $e->getMessage());
+            Log::error('Erreur envoi WelcomeMail: ' . $e->getMessage());
         }
 
         // Authentifier l'utilisateur

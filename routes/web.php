@@ -37,7 +37,6 @@ Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkE
 Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-
 // Routes protégées
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [PageController::class, 'dashboard'])->name('dashboard');
@@ -93,4 +92,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('settings_entretiens', EntretienController::class);
     Route::post('settings_entretiens/{id}/candidature', [EntretienController::class, 'assignCandidatures'])->name('settings_entretiens.candidature');
     Route::get('settings_entretiens/{id}/appercu', [EntretienController::class, 'appercu_entretien'])->name('settings_entretiens.appercu');
+});
+
+// For storage link
+Route::get('/link', function () {
+    $targetFolder = storage_path('app/public');
+    $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
+    symlink($targetFolder, $linkFolder);
 });
