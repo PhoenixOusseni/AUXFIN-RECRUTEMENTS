@@ -15,14 +15,19 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <a href="{{ route('settings_entretiens.index') }}" class="btn btn-light mb-1">
-                                            <i data-feather="arrow-left"></i>&nbsp; Retour à la liste des entretiens
+                                    <div class="col-md-4">
+                                        <a href="{{ route('settings_entretiens.index') }}" class="btn btn-light">
+                                            <i data-feather="arrow-left"></i>&nbsp; Retour
                                         </a>
                                     </div>
-                                    <div class="col-md-6 text-end">
-                                        <a href="{{ route('settings_entretiens.appercu', $finds->id) }}" class="btn btn-warning mb-1">
-                                            <i data-feather="aperture"></i>&nbsp; Appercu avant l'impression
+                                    <div class="col-md-4">
+                                        <a href="{{ route('settings_entretiens.appercu', $finds->id) }}" class="btn btn-success">
+                                            <i data-feather="eye"></i>&nbsp; Appercu
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="{{ route('settings_entretiens.edit', $finds->id) }}" class="btn btn-warning">
+                                            <i data-feather="edit-3"></i>&nbsp; Modifier
                                         </a>
                                     </div>
                                 </div>
@@ -51,6 +56,18 @@
                                     <div class="col-md-12">
                                         <h5 class="small">Commentaires:</h5>
                                         <p class="text-muted small">{{ $finds->commentaires ?? 'Aucun commentaire.' }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <h5 class="small">Candidats assignés:</h5>
+                                    <div class="mb-3">
+                                        @forelse ($finds->candidatures as $candidature)
+                                            <span class="badge bg-secondary mb-1">
+                                                {{ $candidature->user->nom ?? '' }} {{ $candidature->user->prenom ?? '' }} - {{ $candidature->user->email ?? '' }}
+                                            </span>
+                                        @empty
+                                            <p class="text-muted small">Aucun candidat assigné.</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>

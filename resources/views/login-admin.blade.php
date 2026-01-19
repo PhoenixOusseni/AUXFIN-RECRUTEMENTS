@@ -30,13 +30,12 @@
             <!-- Username -->
             <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-person"></i></span>
-                <input type="email" class="form-control" name="email" value="s-admin@gmail.com"
-                    placeholder="Username">
+                <input type="email" class="form-control" name="email" placeholder="Username">
             </div>
             <!-- Password -->
             <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-key"></i></span>
-                <input type="password" class="form-control" name="password" value="password" id="passwordInput"
+                <input type="password" class="form-control" name="password" id="passwordInput"
                     placeholder="Password">
                 <span class="input-group-text" style="cursor:pointer;" onclick="togglePassword()">
                     <i class="bi bi-eye" id="eyeIcon"></i>

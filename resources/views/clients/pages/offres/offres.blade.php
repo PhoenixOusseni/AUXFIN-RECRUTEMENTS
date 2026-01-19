@@ -12,7 +12,8 @@
             <div class="row">
                 <h4 class="page-title">NOS OFFRES D'EMPLOI</h4>
                 <!-- CARD 1 -->
-                @foreach ($offres as $item)
+
+                @forelse ($offres as $item)
                     <div class="col-md-12 col-lg-6">
                         <div class="card custom-card">
                             <div class="position-relative">
@@ -32,19 +33,27 @@
                                 <div class="category-badge">{{ $item->type_contrat }}</div>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $item->title }}</h5>
-                                <p class="text-danger">{{ $item->location }}</p>
+                                <h5 class="card-title text-danger">{{ Str::limit(strip_tags($item->titre), 50, '...') }}
+                                </h5>
                                 <p class="more-text">
                                     {{ Str::limit(strip_tags($item->description), 100, '...') }}
                                 </p>
                                 <div class="d-flex justify-content-between text-muted small mt-3">
-                                    <span><i data-feather="clock"></i>&nbsp;{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</span>
-                                    <span><i data-feather="users"></i>&nbsp;{{ $item->candidature->count() }} candidatures</span>
+                                    <span><i
+                                            data-feather="clock"></i>&nbsp;{{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</span>
+                                    <span><i data-feather="users"></i>&nbsp;{{ $item->candidature->count() }}
+                                        candidatures</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-12">
+                        <div class="alert alert-warning text-center" role="alert">
+                            <em>Aucune offre d'emploi disponible pour le moment. Veuillez revenir plus tard.</em>
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </div>
 
@@ -52,27 +61,36 @@
         <div class="col-md-6">
             <h4 class="page-title">Pourquoi travailler à AUXFIN BURKINA</h4>
             <p class="text-justify">
-                AUXFIN BURKINA est une entreprise de microfinance créée en 2005 et agréée par le Ministère de l’Economie
-                et des Finances du Burkina Faso. Elle est spécialisée dans le financement des petites et moyennes
-                entreprises (PME) et des micro-entreprises, ainsi que dans la promotion de l’inclusion financière.
+                AUXFIN est une entreprise sociale qui vise à fournir des solutions financières et non financières
+                accessibles à tous.
             </p>
             <p class="text-justify">
-                Travailler chez AUXFIN BURKINA, c’est rejoindre une équipe dynamique et engagée, qui partage des
-                valeurs fortes telles que l’innovation, la responsabilité sociale, la diversité et l’inclusion. L’entreprise
-                offre un environnement de travail stimulant, propice à l’épanouissement professionnel et personnel de ses
-                collaborateurs.
+                AUXFIN offre à tous des solutions financières, à de chaîne de valeur et de développement communautaire.
+                Y compris aux populations vulnérables, réfugiés, petits exploitants agricoles, micro-entrepreneurs,
+                ayant de faibles compétences en lecture et en calcul, un accès limité à internet, pas ou peu d’accès à
+                l’électricité et une expérience limitée avec les réseaux mobiles et d’autres technologies, pouvant avoir
+                besoin d’une assistance supplémentaire.
             </p>
             <p class="text-justify">
-                En rejoignant AUXFIN BURKINA, vous aurez l’opportunité de contribuer au développement économique du
-                Burkina Faso, en aidant les entrepreneurs à réaliser leurs projets et à améliorer leurs conditions de vie.
-                Vous pourrez également bénéficier de formations continues, d’un plan de carrière attractif et d’avantages
-                sociaux compétitifs.
+                AUXFIN construit des réseaux de valeur de personnes organisées en groupes autour d’une tablette et
+                assistées par des agents activateurs pour s’assurer que nos technologies sont bien comprises et
+                utilisées.
+                Ces réseaux sont développés dans le cadre de ce que l’on appelle “l’approche G50”.
             </p>
+            <h4 class="mt-4 text-warning">Notre Mission</h4>
             <p class="text-justify">
-                Si vous êtes passionné par le secteur de la microfinance et que vous souhaitez faire une différence dans la
-                vie des autres, n’hésitez pas à postuler aux offres d’emploi de AUXFIN BURKINA. Rejoignez-nous et
-                ensemble, construisons un avenir meilleur pour le Burkina Faso !
-            </p>
+                Le slogan d’AUXFIN est : “L’accès financier pour tous”.
+                Cela signifie : fournir, à des prix très bas, des solutions de base telles que l’épargne, les
+                transferts, les paiements et les microcrédits aux personnes pauvres.
+                Ces personnes peuvent avoir besoin d’une assistance supplémentaire pour comprendre ces solutions
+                financières.
+                AUXFIN va donc améliorer la plantation des agriculteurs, fournir des solutions de développement
+                communautaire, et une gamme complète de solutions numériques.
+                Les organisations peuvent utiliser la plateforme gratuite “USSD AUXFIN”.
+                Les organisations peuvent organiser des solutions de base telles que l’utilisation de services publics,
+                qui sont données aux utilisateurs.
+                Une large base d’utilisateurs est la base des plans de développement du gouvernement et des ONG.
+            <p>
         </div>
     </div>
 @endsection

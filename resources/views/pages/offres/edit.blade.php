@@ -1,4 +1,10 @@
 @extends('layouts.master')
+
+@section('styles')
+    <!-- Quill CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+@endsection
+
 @section('content')
     @include('require.header')
 
@@ -19,7 +25,7 @@
                                 <div class="col-lg-6 col-md-12">
                                     <div class="mb-3">
                                         <label class="small">Titre du poste <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="titre" value="{{ $finds->titre }}" />
+                                        <input type="text" class="form-control" name="titre" value="{{ $finds->titre }}" required />
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
@@ -59,7 +65,7 @@
                                 <div class="col-lg-4 col-md-12">
                                     <div class="mb-3">
                                         <label class="small">Localisation <span class="text-danger">*</span></label>
-                                        <input class="form-control" name="localisation" type="text" value="{{ $finds->localisation }}" />
+                                        <input class="form-control" name="localisation" type="text" value="{{ $finds->localisation }}" required />
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-12">
@@ -86,20 +92,14 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description de l'offre</label>
-                                <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea>
-                            </div>
-
-                            <!-- 🔹 Zone éditeur Quill -->
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description de l'offre</label>
-                                <div id="editor" style="height: 200px;"></div>
-                                <input type="hidden" name="description" id="hiddenInput">
+                                <label class="small">Description du poste <span class="text-danger">*</span></label>
+                                <div id="editor" style="height: 300px;"></div>
+                                <input type="hidden" name="description" id="hiddenInput" value="{!! htmlspecialchars($finds->description) !!}">
                             </div>
 
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-dark"><i
-                                        data-feather="save"></i>&thinsp;&thinsp;&thinsp; Enregistrer</button>
+                                        data-feather="edit"></i>&thinsp;&thinsp;&thinsp; Modifier</button>
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i
                                         data-feather="x"></i>&thinsp;&thinsp;&thinsp; Fermer</button>
                             </div>
@@ -109,15 +109,14 @@
             </div>
         </div>
     </div>
+@endsection
 
-
-    <!-- Quill CSS -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
+@section('scripts')
     <!-- Quill JS -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
     <script>
+        // Initialiser Quill
         var quill = new Quill('#editor', {
             theme: 'snow',
             modules: {
@@ -152,9 +151,58 @@
             }
         });
 
-        // Sauvegarde du contenu avant submit
-        document.querySelector("form").onsubmit = function() {
-            document.querySelector("#hiddenInput").value = quill.root.innerHTML;
-        };
+        // Charger la description existante dans l'éditeur Quill au chargement du DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            var existingContent = {!! json_encode($finds->description) !!};
+            console.log('Contenu existant:', existingContent);
+
+            if (existingContent && existingContent.trim() !== '' && existingContent !== '<p><br></p>') {
+                quill.root.innerHTML = existingContent;
+                console.log('Description chargée avec succès');
+            }
+
+            // Mettre à jour le champ caché avec le contenu initial
+            var hiddenInput = document.querySelector("#hiddenInput");
+            if (hiddenInput) {
+                hiddenInput.value = quill.root.innerHTML;
+            }
+
+            // Écouter les changements dans l'éditeur et mettre à jour le champ caché automatiquement
+            quill.on('text-change', function() {
+                if (hiddenInput) {
+                    hiddenInput.value = quill.root.innerHTML;
+                }
+            });
+        });
+
+        // Capturer le submit du formulaire et sauvegarder le contenu Quill
+        var form = document.querySelector("form");
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                console.log('Submit détecté');
+
+                // Récupérer le contenu
+                var description = quill.root.innerHTML;
+                var text = quill.getText().trim();
+
+                console.log('Description HTML:', description);
+                console.log('Description texte:', text);
+                console.log('Longueur du texte:', text.length);
+
+                // Valider que la description n'est pas vide
+                if (!text || text.length < 10) {
+                    e.preventDefault();
+                    alert('La description doit contenir au moins 10 caractères.');
+                    return false;
+                }
+
+                // Sauvegarder le contenu HTML de Quill dans le champ caché
+                var hiddenInput = document.querySelector("#hiddenInput");
+                if (hiddenInput) {
+                    hiddenInput.value = description;
+                    console.log('Description sauvegardée dans le champ caché');
+                }
+            });
+        }
     </script>
 @endsection

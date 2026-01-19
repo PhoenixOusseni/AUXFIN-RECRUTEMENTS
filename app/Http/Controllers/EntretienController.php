@@ -85,25 +85,45 @@ class EntretienController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Entretien $entretien)
+    public function edit(String $id)
     {
-        //
+        $finds = Entretien::with(['poste', 'candidatures.user'])->findOrFail($id);
+        $postes = Poste::where('statut', 'actif')->get();
+        $candidatures = Candidature::where('statut', 'entretien')->get();
+        return view('pages.setting.entretiens.edit', compact('finds', 'postes', 'candidatures'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Entretien $entretien)
+    public function update(Request $request, String $id)
     {
-        //
+        $validated = $request->validate([
+            'date_entretien' => 'required|date',
+            'heure_entretien' => 'required',
+            'lieu_entretien' => 'required|string|max:255',
+            'commentaires' => 'nullable|string',
+            'poste_id' => 'nullable|exists:postes,id',
+        ]);
+
+        $entretien = Entretien::findOrFail($id);
+        $entretien->update($validated);
+
+        return redirect()->route('settings_entretiens.show', $entretien)
+            ->with('success', "L'entretien a été mis à jour avec succès.");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Entretien $entretien)
+    public function destroy(String $id)
     {
-        //
+        $entretien = Entretien::findOrFail($id);
+        $entretien->candidatures()->detach(); // détacher les candidatures associées
+        $entretien->delete();
+
+        return redirect()->route('settings_entretiens.index')
+            ->with('success', "L'entretien a été supprimé avec succès.");
     }
 
     public function assignCandidatures(Request $request, $entretienId)

@@ -7,6 +7,7 @@
     <title>ADMIN - AUXFIN</title>
     <!-- Bootstrap 5 CSS -->
     @include('partials.style')
+    @yield('styles')
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -81,10 +82,10 @@
         {{-- Pour les messgaes de validation et de rejet... --}}
         @if (session('success') || session('error'))
             <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
-                <div class="toast align-items-center text-white {{ session('success') ? 'bg-success' : 'bg-danger' }} border-0 show"
+                <div class="toast align-items-center text-white {{ session('success') ? 'bg-success' : 'bg-danger' }} border-0"
                     role="alert" aria-live="assertive" aria-atomic="true" id="statusToast">
-                    <div class="d-block">
-                        <button type="button" class="btn-close btn-close-white me-2 m-auto float-end border-1"
+                    <div class="d-flex">
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto float-end"
                             data-bs-dismiss="toast" aria-label="Close"></button>
                         <div class="toast-body" style="height: 40vh;">
                             @if (session('success'))
@@ -121,6 +122,23 @@
     <!-- Bootstrap JS -->
     @include('partials.script')
 
+    @yield('scripts')
+
+    <script>
+        // Initialisation et gestion automatique du toast
+        document.addEventListener('DOMContentLoaded', function() {
+            var toastElement = document.getElementById('statusToast');
+            if (toastElement) {
+                // Initialiser le toast Bootstrap
+                var toast = new bootstrap.Toast(toastElement, {
+                    autohide: true,
+                    delay: 5000 // 5 secondes
+                });
+                // Afficher le toast
+                toast.show();
+            }
+        });
+    </script>
 
     <script>
         (function($) {

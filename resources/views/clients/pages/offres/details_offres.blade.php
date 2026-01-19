@@ -11,10 +11,10 @@
                     <div class="card custom-card">
                         <div class="position-relative">
                             @if ($finds->image)
-                                <img src="{{ asset('storage/' . $finds->image) }}" class="card-img-top" alt="image du poste">
+                                <img src="{{ asset('storage/' . $finds->image) }}" class="card-img-top" alt="image du poste" style="max-height: 300px;">
                             @else
                                 <img src="{{ asset('images/premium.jpg') }}" class="card-img-top"
-                                    alt="image du poste par défaut">
+                                    alt="image du poste par défaut" style="max-height: 300px;">
                             @endif
                             <div class="date-badge">
                                 <span>{{ \Carbon\Carbon::parse($finds->date_expiration)->format('d') }}</span>

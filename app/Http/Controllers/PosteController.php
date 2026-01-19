@@ -125,16 +125,23 @@ class PosteController extends Controller
     public function update(Request $request, string $id)
     {
         $poste = Poste::findOrFail($id);
+
+        // Mise à jour des champs
         $poste->titre = $request->input('titre');
         $poste->description = $request->input('description');
         $poste->type_contrat = $request->input('type_contrat');
         $poste->localisation = $request->input('localisation');
         $poste->date_expiration = $request->input('date_expiration');
-        $poste->domaine = $request->input('domaine');
         $poste->niveau_etude = $request->input('niveau_etude');
         $poste->type_poste_id = $request->input('type_poste_id');
 
+        // Gestion de l'image
         if ($request->hasFile('image')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($poste->image && \Storage::disk('public')->exists($poste->image)) {
+                \Storage::disk('public')->delete($poste->image);
+            }
+            
             $path = $request->file('image')->store('images/postes', 'public');
             $poste->image = $path;
         }
