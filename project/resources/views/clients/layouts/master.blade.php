@@ -109,7 +109,7 @@
     <!-- FOOTER -->
     <footer class="text-center">
         <p>Copyright © {{ date('Y') }} <span class="highlight">AUXFIN</span>. Tous droits réservés.</p>
-        <p>Tel : +226 61 34 65 54 | Mail : recrutement@auxfin.bf</p>
+        <p>Tel : +226 61 34 65 54 | +226 04 21 85 29</p>
         <a href="{{ route('auth_admin') }}" class="btn admin-btn">
             <i data-feather="lock"></i>&nbsp; Connexion Admin
         </a>
