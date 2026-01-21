@@ -26,6 +26,10 @@
             <li>Adresse e-mail (qui servira de nom d'utilisateur pour la connexion)</li>
             <li>Mot de passe</li>
         </ul>
+       <div class="text-standard my-4">
+            <img src="{{ asset('images/creer_compte.png') }}" alt="Page de création de compte" class="img-fluid border rounded shadow-sm" style="max-width: 23%;">
+            <p class="text-muted mt-2"><em>Figure 1 : Interface de création de compte</em></p>
+        </div>
 
         <!-- 2. Interface de connexion candidat -->
         <h2>2. Interface de connexion candidat</h2>
@@ -39,6 +43,10 @@
             <li>En cliquant sur le menu <strong>"Demande de stage"</strong>, le visiteur est également dirigé vers
                 l'interface de connexion s'il n'est pas déjà connecté.</li>
         </ul>
+        <div class="text-standard my-4">
+            <img src="{{ asset('images/connexion.png') }}" alt="Page de connexion" class="img-fluid border rounded shadow-sm" style="max-width: 23%;">
+            <p class="text-muted mt-2"><em>Figure 2 : Interface de connexion</em></p>
+        </div>
 
         <p>
             Une fois sur l'interface de connexion, le visiteur saisit son identifiant et son mot de passe, puis clique sur
@@ -51,16 +59,25 @@
 
         <p>Après la connexion, le visiteur aura accès à diverses actions sur la plateforme en cliquant sur son nom en haut
             de la page. Ces actions comprennent :</p>
-        <ul>
+      
+                <ul>
             <li>Changement de mot de passe</li>
             <li>Mise à jour du profil</li>
             <li>Consultation et suivi des candidatures</li>
             <li>Consultation et suivi des demandes de stage</li>
             <li>Déconnexion</li>
-        </ul>
+            </ul>
+            <div class="text-standard my-4">
+                <img src="{{ asset('images/password.png') }}" alt="Page de connexion" class="img-fluid border rounded shadow-sm" style="max-width: 23%;">
+                <p class="text-muted mt-2"><em>Figure 2 : Interface de connexion</em></p>
+            </div>
+           
+       
+       
 
         <!-- 3. Page mettre à jour son profil -->
         <h2>3. Page "Mettre à jour son profil"</h2>
+         
         <p>
             Le candidat peut accéder à cette interface dans trois situations :
         </p>
@@ -69,6 +86,12 @@
             <li>Après la création de son compte</li>
             <li>Après avoir sélectionné une offre pour postuler</li>
         </ul>
+           
+                <div class="text-standard my-4">
+                    <img src="{{ asset('images/edit_profil.png') }}" alt="Page de mise à jour du profil" class="img-fluid border rounded shadow-sm" style="max-width: 40%;">
+                    <p class="text-muted mt-2"><em>Figure 3 : Interface de mise à jour du profil</em></p>
+                </div>
+           
 
         <p>
             Les informations du profil du candidat sont réparties en 6 sections :
@@ -76,6 +99,7 @@
 
         <!-- Exemple de section -->
         <h3>a. Informations personnelles</h3>
+         
         <p>Cette section requiert les informations suivantes :</p>
         <ul>
             <li>Nom et prénom</li>
@@ -83,5 +107,12 @@
             <li>Adresse</li>
             <li>Téléphone</li>
         </ul>
+            
+                <div class="text-standard my-4">
+                    <img src="{{ asset('images/personal.png') }}" alt="Section Informations personnelles" class="img-fluid border rounded shadow-sm" style="max-width: 23%;">
+                    <p class="text-muted mt-2"><em>Figure 4 : Section Informations personnelles</em></p>
+                </div>
+          
+    </div>
     </div>
 @endsection
